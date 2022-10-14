@@ -1,6 +1,6 @@
 # Emeset lite
 
-##El framework per estudiants de 2n DAW.
+## El framework per estudiants de 2n DAW.
 
 Versió lite del "Framework" Emeset. 
 
