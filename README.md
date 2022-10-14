@@ -67,17 +67,23 @@ L'objecte petició encapsula tota la petició HTTP.
 
 ```php
 
-$r = $peticio->get(INPUT_GET, "r");  // obtindrà el paràmetre r de la petició GET i escaparà els caràcters especials.
+// obtindrà el paràmetre r de la petició GET i escaparà els caràcters especials.
+$r = $peticio->get(INPUT_GET, "r");  
 
-$r = $peticio->get(INPUT_POST, "r"); // obtindrà el paràmetre r de la petició POST i escaparà els caràcters especials.
+// obtindrà el paràmetre r de la petició POST i escaparà els caràcters especials.
+$r = $peticio->get(INPUT_POST, "r"); 
 
-$r = $peticio->getRaw(INPUT_COOKIES, "r");  // obtindrà el paràmetre r de la petició GET.
+// obtindrà el paràmetre r de la petició GET.
+$r = $peticio->getRaw(INPUT_COOKIES, "r");  
 
-$r = $peticio->get("SESSION", "r"); // obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
+// obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
+$r = $peticio->get("SESSION", "r"); 
 
-$r = $peticio->get("FILES", "r"); // obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
+// obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
+$r = $peticio->get("FILES", "r"); 
 
-$r = $peticio->get("INPUT_REQUEST", "r"); // obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
+// obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
+$r = $peticio->get("INPUT_REQUEST", "r"); 
 
 
 //Si no volem escapar els caràcters especials podem utilitzar el mètode getRaw();
@@ -89,7 +95,8 @@ $r = $peticio->getRaw(INPUT_GET, "r");  // obtindrà el paràmetre r de la petic
 La resposta encapsula la resposta HTTP,  això inclou les cookies, redireccions, capçalers i variables de sessió (encara que no formin part realment de la resposta HTTP).
 
 ```php
-// Quan instanciem la classe resposta podem definir en quina carpeta estan les plantilles, per defecte busca a ../src/views/
+// Quan instanciem la classe resposta podem definir en quina carpeta 
+// estan les plantilles, per defecte busca a ../src/views/
 $resposta = new \Emeset\Resposta("../src/vistes");
 ```
 
@@ -98,7 +105,6 @@ El mètode set ens permet injectar informació a la vista i el mètode setTempla
 ### Plantilles
 
 ```php
-// Quan instanciem la classe resposta podem definir en quina carpeta estan les plantilles, per defecte busca a ../src/views/
 $resposta->set("nom", $nom);
 $resposta->setTemplate("fitxa.php");
 ```
@@ -135,10 +141,25 @@ $resposta->redirect("location: index.php?r=login");
 
 La resposta ens permet desar informació a la sessió. El PHP ens permet fer-ho directament, amb el Framework Emeset esta encapsulat a l'objecte resposta per unificar l'accés a la informació i així reforçar el concepte que un controlador rep informació d'entrada (la petició) i retorna la informació amb la resposta.
 
+
 ```php
-$resposta->setSession("error", "Missatge d'error");  //Quedarà desat a la sessió i podrem consultar en les pròximes consultes.
+// Quedarà desat a la sessió i podrem consultar en les pròximes consultes.
+$resposta->setSession("error", "Missatge d'error");  
 ```
 
+### Cookies
+
+El métode setCookie()  mapeja la petició a la funcio [setcookie](https://www.php.net/manual/es/function.setcookie.php) de PHP amb els mateixos paràmetres.
+
+
+```php
+public function setCookie($name, $value = "", $expire = 0, $path = "", $domain = "", $secure = false, $httponly = false)
+```
+
+Per exemple:
+```php
+$resposta->setCookie("contador", $contador);
+```
 
 ## El contenidor
 
@@ -162,6 +183,20 @@ Podem definir un mètode per cada classe que volguem utilitzar i així aquest m�
 
 Les vistes són fitxers PHP planers, l'objecte resposta s'encarrega de que en el àmbit del fitxer hi estiguin disponible tota les variables que haguem definit al controlador.
 
+Al ser fitxers PHP podem utilitzat qualsevol funcionalitat de PHP, però és important que les plantilles només tinguin codi relacionat amb la lògica de presentació.
+
+Alhora de definir les Urls dels diferents recursos (imatges, fulls d'estils, fitxers javascript) hem de tenir present que la vista es visualitzarà des de la carpeta public que de fer és la única carpeta accessible publicament. Per tant els path s'han d'ajustar a partir d'aquest punt.
+
+```
+└── public
+    ├── css
+    │   └── web.css
+    └── index.php
+```
+
+Per enllaçar el full d'estils el path seria *css/web.css*
+
+
 
 ## Middleware
 
@@ -176,9 +211,11 @@ function auth($peticio, $resposta, $contenidor, $next){
     /* Aqui aniria el codi per validar si l'usuari està identificat correctament. */
 
     if($loginOK) {
-        $resposta = $next($peticio, $resposta, $contenidor);  // Com compleix les condicions  executem el controlador.
+        // Com compleix les condicions  executem el controlador.
+        $resposta = $next($peticio, $resposta, $contenidor);  
     } else {
-        $resposta->redirect("Location: index.php?r=login");   // Com no les compleix, aquí redirigim a la ruta definida per aquest cas.  
+        // Com no les compleix, aquí redirigim a la ruta definida per aquest cas.  
+        $resposta->redirect("Location: index.php?r=login");
     }
 
     return $resposta;
