@@ -11,7 +11,7 @@
 namespace Emeset;
 
 /**
- * Petitcio: Classe gestiona la petició HTTP.
+ * Peticio: Classe gestiona la petició HTTP.
  *
  * @author: Dani Prados dprados@cendrassos.net
  *
@@ -52,10 +52,10 @@ class Peticio
     /**
      * getRaw:  obté un valor de l'entrada especificada sense filtrar
      *
-     * @param $input   identificador de l'entrada.
+     * @param $input   string identificador de l'entrada.
      * @param $id      string amb la tasca.
-     * @param $filtre  filtre a aplicar
-     * @param $opcions opcions del filtre si volem un array FILTER_REQUIRE_ARRAY
+     * @param $filtre  int filtre a aplicar
+     * @param $opcions int opcions del filtre si volem un array FILTER_REQUIRE_ARRAY
      **/
     public function getRaw($input, $id, $opcions = 0)
     {
