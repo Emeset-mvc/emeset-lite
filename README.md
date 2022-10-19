@@ -161,6 +161,15 @@ Per exemple:
 $resposta->setCookie("contador", $contador);
 ```
 
+### Resposta en format JSON
+
+Si volem generar una resposta en format JSON podem utilitzar el mètode setJson() així  la resposta codificarà a format JSON tota la informació que hem afegit.
+
+```php
+// Quedarà desat a la sessió i podrem consultar en les pròximes consultes.
+$resposta->setJson();  
+```
+
 ## El contenidor
 
 El contenidor és el responsable d'instanciar els diferents objectes del projecte. Centranlitzant la responsabilitat de creació de nous objectes ens simplifica el podem canviar d'implementació d'algun objecte, sempre que respecti la signatura (mètodes i paràmetres). Podem assegurar aquesta compatibilitat utilitzant interfaces.

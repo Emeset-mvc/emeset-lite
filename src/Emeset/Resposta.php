@@ -25,6 +25,7 @@ class Resposta
     public $path;
     public $plantilla;
     public $redireccio = false;
+    public $json = false;
 
     /**
      * __construct:  Té tota la informació per crear la resposta
@@ -114,6 +115,16 @@ class Resposta
     }
 
     /**
+     * setJson força que la resposta sigui en format json.
+     *
+     * @return void
+     */
+    public function setJSON()
+    {
+        $this->json = true;
+    }
+
+    /**
      * Genera la resposta HTTP
      *
      * @return void
@@ -122,6 +133,8 @@ class Resposta
     {
         if ($this->redireccio) {
             header($this->header);
+        } elseif ($this->json) {
+            echo json_encode($this->valors);
         } else {
             if ($this->header !== false) {
                 header($this->header);

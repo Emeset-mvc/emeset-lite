@@ -6,6 +6,7 @@
 
  include "../src/config.php";
  include "../src/controllers/ctrlIndex.php";
+ include "../src/controllers/ctrlJson.php";
 
 /**
   * Carreguem les classes del Framework Emeset
@@ -33,7 +34,9 @@
  /* Front Controller, aquí es decideix quina acció s'executa */
  if($r == "") {
      $resposta = ctrlIndex($request, $resposta, $contenidor);
- } else {
+ } elseif($r == "json") {
+  $resposta = ctrlJson($request, $resposta, $contenidor);
+} else {
      echo "No existeix la ruta";
  }
 
