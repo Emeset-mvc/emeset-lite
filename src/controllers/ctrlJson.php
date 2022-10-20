@@ -1,10 +1,10 @@
 <?php
 
-function ctrlJson($peticio, $resposta, $contenidor){
+function ctrlJson($request, $response, $container){
 
-    $resposta->set("dades", ["name" => "John", "surname" => "Doe"]);    
-    $resposta->setJson();
+    $response->set("dades", ["name" => "John", "surname" => "Doe"]);    
+    $response->setJson();
 
-    return $resposta;
+    return $response;
     
 }

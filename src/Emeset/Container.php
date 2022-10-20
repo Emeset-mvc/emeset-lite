@@ -11,13 +11,13 @@
 namespace Emeset;
 
 /**
- * Contenidor: Classe contenidor.
+ * Container: Classe contenidor.
  *
  * @author: Dani Prados dprados@cendrassos.net
  *
  * Classe contenidor, la responsabilitat d'instaciar els models i altres objectes.
  **/
-class Contenidor
+class Container
 {
     public $config = [];
     public $sql;
@@ -32,14 +32,14 @@ class Contenidor
         $this->config = $config;
     }
 
-    public function resposta()
+    public function response()
     {
-        return new \Emeset\Resposta();
+        return new \Emeset\Response();
     }
 
-    public function peticio()
+    public function request()
     {
-        return new \Emeset\Peticio();
+        return new \Emeset\Request();
     }
 
 }
