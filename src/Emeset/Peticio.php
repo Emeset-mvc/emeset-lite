@@ -28,7 +28,7 @@ class Peticio
         session_start();
     }
 
-    /**
+     /**
      * get:  obté un valor de l'entrada especificada amb el filtre indicat
      *
      * @param $input   string identificador de l'entrada.
@@ -47,7 +47,11 @@ class Peticio
             $result = null;
             if (isset($_REQUEST[$id])) {
                 $var = $_REQUEST[$id];
+                if($filter == "FILTER_SANITIZE_STRING"){
                 $result = filter_var($var, $filter, $options);
+                } else {
+                    $result = filter_var($var, $filter, $options);
+                }
             }
         } else {
             if($filter == "FILTER_SANITIZE_STRING"){
