@@ -47,7 +47,11 @@ class Request
             $result = null;
             if (isset($_REQUEST[$id])) {
                 $var = $_REQUEST[$id];
+                if($filter == "FILTER_SANITIZE_STRING"){
                 $result = filter_var($var, $filter, $options);
+                } else {
+                    $result = filter_var($var, $filter, $options);
+                }
             }
         } else {
             if($filter == "FILTER_SANITIZE_STRING"){
