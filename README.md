@@ -92,7 +92,7 @@ $r = $peticio->getRaw(INPUT_GET, "r");  // obtindrà el paràmetre r de la petic
 
 ## La resposta
 
-La resposta encapsula la resposta HTTP,  això inclou les cookies, redireccions, capçalers i variables de sessió (encara que no formin part realment de la resposta HTTP).
+La resposta encapsula la resposta HTTP,  això inclou les cookies, redireccions, capçaleres i variables de sessió (encara que no formin part realment de la resposta HTTP).
 
 ```php
 // Quan instanciem la classe resposta podem definir en quina carpeta 

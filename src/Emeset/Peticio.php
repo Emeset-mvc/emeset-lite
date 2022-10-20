@@ -34,17 +34,30 @@ class Peticio
      * @param $input   string identificador de l'entrada.
      * @param $id      string amb la tasca.
      * @param $filtre  int filtre a aplicar
-     * @param $opcions int opcions del filtre si volem un array FILTER_REQUIRE_ARRAY
+     * @param $options int opcions del filtre si volem un array FILTER_REQUIRE_ARRAY
      **/
-    public function get($input, $id, $filtre = FILTER_SANITIZE_STRING, $opcions = 0)
+    public function get($input, $id, $filter = "FILTER_SANITIZE_STRING", $options = 0)
     {
         $result = false;
         if ($input === 'SESSION') {
             $result = $_SESSION[$id];
         } elseif ($input === 'FILES') {
             $result = $_FILES[$id];
+        } elseif ($input === "INPUT_REQUEST") {
+            $result = null;
+            if (isset($_REQUEST[$id])) {
+                $var = $_REQUEST[$id];
+                $result = filter_var($var, $filter, $options);
+            }
         } else {
-            $result = filter_input($input, $id, $filtre, $opcions);
+            if($filter == "FILTER_SANITIZE_STRING"){
+                $result = filter_input($input, $id, FILTER_DEFAULT, $options);
+                if(isset($result)) {
+                    $result = htmlspecialchars($result);
+                }                
+            } else {
+                $result = filter_input($input, $id, $filter, $options);
+            }
         }
         return $result;
     }
