@@ -172,7 +172,7 @@ $response->setJson();
 
 ## El contenidor
 
-El contenidor és el responsable d'instanciar els diferents objectes del projecte. Centranlitzant la responsabilitat de creació de nous objectes ens simplifica el podem canviar d'implementació d'algun objecte, sempre que respecti la signatura (mètodes i paràmetres). Podem assegurar aquesta compatibilitat utilitzant interfaces.
+El contenidor és el responsable d'instanciar els diferents objectes del projecte. Centralitzar la responsabilitat de creació de nous objectes ens desacobla els controladors dels objectes que utilitzen, treu la lògica d'inicialització dels controladors i ens simplifica el canvi d'implementació d'alguns objectes, sempre que respecti la signatura (mètodes i paràmetres, podem assegurar aquesta compatibilitat utilitzant interfaces).
 
 El constructor de la classe contenidor espera l'array de configuració com a paràmetre.
 ```php
@@ -190,11 +190,12 @@ Podem definir un mètode per cada classe que volguem utilitzar i així aquest m�
 
 ## Les vistes
 
-Les vistes són fitxers PHP planers, l'objecte resposta s'encarrega de que en el àmbit del fitxer hi estiguin disponible tota les variables que haguem definit al controlador.
+Les vistes són fitxers PHP planers, l'objecte resposta s'encarrega que en l'àmbit del fitxer hi estiguin disponible totes les variables que haguem definit al controlador.
 
-Al ser fitxers PHP podem utilitzat qualsevol funcionalitat de PHP, però és important que les plantilles només tinguin codi relacionat amb la lògica de presentació.
+En ser fitxers PHP podem utilitzar qualsevol funcionalitat de PHP, però és important que les plantilles només tinguin codi relacionat amb la lògica de presentació.
 
-Alhora de definir les Urls dels diferents recursos (imatges, fulls d'estils, fitxers javascript) hem de tenir present que la vista es visualitzarà des de la carpeta public que de fer és la única carpeta accessible publicament. Per tant els path s'han d'ajustar a partir d'aquest punt.
+A l'hora de definir les Urls dels diferents recursos (imatges, fulls d'estils, fitxers javascript) hem de tenir present que la vista es visualitzarà des de la carpeta public que de fer és l'única carpeta accessible públicament. Per tant, els path s'han d'ajustar a partir d'aquest punt.
+
 
 ```
 └── public
