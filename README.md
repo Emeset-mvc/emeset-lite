@@ -8,7 +8,7 @@ L'objectiu d'Emeset és introduir el patró MVC (Model- Vista-Controlador) utili
 
 La majoria de frameworks moderns, implementen moltes funcionalitats "entre bastidors", això és útil per a programadors experimentats, ja que els permet centrar-se a desenvolupar funcionalitats més avançades sense haver de pensar en l'arquitectura i altres detalls. Però aquestes facilitats no ajuden en el procés d'aprenentatge.
 
-La versió lite, de fet no és Framework, només ens facilita les classes Contenidor, Petició i Resposta.
+La versió lite, de fet no és Framework, només ens facilita les classes Container, Petició i Response.
 
 Emeset està concebut amb finalitats educatives, no és recomanable utilitzar-lo per aplicacions en producció.
 
@@ -23,11 +23,11 @@ Així els controladors reben tota la informació de la petició HTTP encapsulada
 Els controladors no han d'accedir directament a la informació, d'això s'encarreguen els models, ni han de generar cap sortida, d'això s'encarrega la resposta. La seva responsabilitat és crear una resposta en funció de la informació d'entrada utilitzant els models per accedir a les dades de l'aplicació.
 
 ```php
-function ctrlIndex($peticio, $resposta, $contenidor){
+function ctrlIndex($request, $response, $container){
 
-    $resposta->setTemplate("index.php");
+    $response->setTemplate("index.php");
 
-    return $resposta;
+    return $response;
     
 } 
 ```
@@ -47,7 +47,7 @@ L'única responsabilitat del FrontController és inicialitzar l'aplicació, deci
  
  /* Front Controller, aquí es decideix quina acció s'executa */
  if($r == "") {
-     $resposta = ctrlIndex($request, $resposta, $contenidor);
+     $response = ctrlIndex($request, $response, $container);
  } else {
      echo "No existeix la ruta";
  }
@@ -57,7 +57,7 @@ I al final del fitxer "executem" la resposta,  la resposta pot ser una plantilla
 
 
 ```php
- $resposta->resposta();
+ $response->response();
 
 ```
 
@@ -68,26 +68,26 @@ L'objecte petició encapsula tota la petició HTTP.
 ```php
 
 // obtindrà el paràmetre r de la petició GET i escaparà els caràcters especials.
-$r = $peticio->get(INPUT_GET, "r");  
+$r = $request->get(INPUT_GET, "r");  
 
 // obtindrà el paràmetre r de la petició POST i escaparà els caràcters especials.
-$r = $peticio->get(INPUT_POST, "r"); 
+$r = $request->get(INPUT_POST, "r"); 
 
 // obtindrà el paràmetre r de la petició GET.
-$r = $peticio->getRaw(INPUT_COOKIES, "r");  
+$r = $request->getRaw(INPUT_COOKIES, "r");  
 
 // obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
-$r = $peticio->get("SESSION", "r"); 
+$r = $request->get("SESSION", "r"); 
 
 // obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
-$r = $peticio->get("FILES", "r"); 
+$r = $request->get("FILES", "r"); 
 
 // obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
-$r = $peticio->get("INPUT_REQUEST", "r"); 
+$r = $request->get("INPUT_REQUEST", "r"); 
 
 
 //Si no volem escapar els caràcters especials podem utilitzar el mètode getRaw();
-$r = $peticio->getRaw(INPUT_GET, "r");  // obtindrà el paràmetre r de la petició GET.
+$r = $request->getRaw(INPUT_GET, "r");  // obtindrà el paràmetre r de la petició GET.
 ```
 
 ## La resposta
@@ -97,7 +97,7 @@ La resposta encapsula la resposta HTTP,  això inclou les cookies, redireccions,
 ```php
 // Quan instanciem la classe resposta podem definir en quina carpeta 
 // estan les plantilles, per defecte busca a ../src/views/
-$resposta = new \Emeset\Resposta("../src/vistes");
+$response = new \Emeset\Response("../src/vistes");
 ```
 
 El mètode set ens permet injectar informació a la vista i el mètode setTemplate ens permet definir quina plantilla volem utilitzar per la vista.
@@ -105,8 +105,8 @@ El mètode set ens permet injectar informació a la vista i el mètode setTempla
 ### Plantilles
 
 ```php
-$resposta->set("nom", $nom);
-$resposta->setTemplate("fitxa.php");
+$response->set("nom", $nom);
+$response->setTemplate("fitxa.php");
 ```
 
 Les plantilles de les vistes han de ser fitxers PHP, a les vistes només hi ha d'haver codi relacionat amb la visualització, és la seva única responsabilitat.
@@ -126,7 +126,7 @@ Amb l'exemple anterior la plantilla podria visualitzar el nom.
 Podem afegir informació a la capçalera de respota HTTP.
 
 ```php
-$resposta->setHeader("HTTP/1.1 404 Not Found");
+$response->setHeader("HTTP/1.1 404 Not Found");
 ```
 
 ### Redireccions
@@ -134,7 +134,7 @@ $resposta->setHeader("HTTP/1.1 404 Not Found");
 La resposta en alguns casos pot ser una redirecció. Així podem indicar al navegador que carregui una altra pàgina.
 
 ```php
-$resposta->redirect("location: index.php?r=login");
+$response->redirect("location: index.php?r=login");
 ```
 
 ### Sessió
@@ -144,7 +144,7 @@ La resposta ens permet desar informació a la sessió. El PHP ens permet fer-ho 
 
 ```php
 // Quedarà desat a la sessió i podrem consultar en les pròximes consultes.
-$resposta->setSession("error", "Missatge d'error");  
+$response->setSession("error", "Missatge d'error");  
 ```
 
 ### Cookies
@@ -158,25 +158,25 @@ public function setCookie($name, $value = "", $expire = 0, $path = "", $domain =
 
 Per exemple:
 ```php
-$resposta->setCookie("contador", $contador);
+$response->setCookie("contador", $contador);
 ```
 
-### Resposta en format JSON
+### Response en format JSON
 
 Si volem generar una resposta en format JSON podem utilitzar el mètode setJson() així  la resposta codificarà a format JSON tota la informació que hem afegit.
 
 ```php
 // Quedarà desat a la sessió i podrem consultar en les pròximes consultes.
-$resposta->setJson();  
+$response->setJson();  
 ```
 
 ## El contenidor
 
-El contenidor és el responsable d'instanciar els diferents objectes del projecte. Centranlitzant la responsabilitat de creació de nous objectes ens simplifica el podem canviar d'implementació d'algun objecte, sempre que respecti la signatura (mètodes i paràmetres). Podem assegurar aquesta compatibilitat utilitzant interfaces.
+El contenidor és el responsable d'instanciar els diferents objectes del projecte. Centralitzar la responsabilitat de creació de nous objectes ens desacobla els controladors dels objectes que utilitzen, treu la lògica d'inicialització dels controladors i ens simplifica el canvi d'implementació d'alguns objectes, sempre que respecti la signatura (mètodes i paràmetres, podem assegurar aquesta compatibilitat utilitzant interfaces).
 
 El constructor de la classe contenidor espera l'array de configuració com a paràmetre.
 ```php
-$contenidor = new \Emeset\Contenidor($config);
+$container = new \Emeset\Container($config);
 ```
 
 Podem definir un mètode per cada classe que volguem utilitzar i així aquest mètode serà el responsable de la seva instancició.
@@ -184,17 +184,18 @@ Podem definir un mètode per cada classe que volguem utilitzar i així aquest m�
 ```php
     public function resposta()
     {
-        return new \Emeset\Resposta();
+        return new \Emeset\Response();
     }
 ```
 
 ## Les vistes
 
-Les vistes són fitxers PHP planers, l'objecte resposta s'encarrega de que en el àmbit del fitxer hi estiguin disponible tota les variables que haguem definit al controlador.
+Les vistes són fitxers PHP planers, l'objecte resposta s'encarrega que en l'àmbit del fitxer hi estiguin disponible totes les variables que haguem definit al controlador.
 
-Al ser fitxers PHP podem utilitzat qualsevol funcionalitat de PHP, però és important que les plantilles només tinguin codi relacionat amb la lògica de presentació.
+En ser fitxers PHP podem utilitzar qualsevol funcionalitat de PHP, però és important que les plantilles només tinguin codi relacionat amb la lògica de presentació.
 
-Alhora de definir les Urls dels diferents recursos (imatges, fulls d'estils, fitxers javascript) hem de tenir present que la vista es visualitzarà des de la carpeta public que de fer és la única carpeta accessible publicament. Per tant els path s'han d'ajustar a partir d'aquest punt.
+A l'hora de definir les Urls dels diferents recursos (imatges, fulls d'estils, fitxers javascript) hem de tenir present que la vista es visualitzarà des de la carpeta public que de fer és l'única carpeta accessible públicament. Per tant, els path s'han d'ajustar a partir d'aquest punt.
+
 
 ```
 └── public
@@ -216,18 +217,18 @@ Dos exemples habituals de middleware és el control d'accés, on el middleware c
 
 ```php
 
-function auth($peticio, $resposta, $contenidor, $next){
+function auth($request, $response, $container, $next){
     /* Aqui aniria el codi per validar si l'usuari està identificat correctament. */
 
     if($loginOK) {
         // Com compleix les condicions  executem el controlador.
-        $resposta = $next($peticio, $resposta, $contenidor);  
+        $response = $next($request, $response, $container);  
     } else {
         // Com no les compleix, aquí redirigim a la ruta definida per aquest cas.  
-        $resposta->redirect("Location: index.php?r=login");
+        $response->redirect("Location: index.php?r=login");
     }
 
-    return $resposta;
+    return $response;
 }
 
 ```

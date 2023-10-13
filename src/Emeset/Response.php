@@ -11,20 +11,20 @@
 namespace Emeset;
 
 /**
- * Resposta: Objecte que encapsula la resposta.
+ * Response: Objecte que encapsula la resposta.
  *
  * @author: Dani Prados dprados@cendrassos.net
  *
  * Per guarda tota la informació de la resposta.
  **/
-class Resposta
+class Response
 {
 
-    public $valors = [];
+    public $values = [];
     public $header = false;
     public $path;
-    public $plantilla;
-    public $redireccio = false;
+    public $template;
+    public $redirect = false;
     public $json = false;
 
     /**
@@ -41,11 +41,11 @@ class Resposta
      * set:  obté un valor de l'entrada especificada amb el filtre indicat
      *
      * @param $id    string identificadro del valor que deem.
-     * @param $valor mixed filtre a desar
+     * @param $value mixed valor a desar
      **/
-    public function set($id, $valor)
+    public function set($id, $value)
     {
-        $this->valors[$id] = $valor;
+        $this->values[$id] = $value;
     }
 
     /**
@@ -55,11 +55,11 @@ class Resposta
      * @param  mixed  $valor variable que volem desar
      * @return void
      */
-    public function setSession($id, $valor)
+    public function setSession($id, $value)
     {
-        $_SESSION[$id] = $valor;
+           $_SESSION[$id] = $value;
     }
-
+    
     /**
      * setCookie funció afegida per consistència crea una cookie.
      *
@@ -100,7 +100,7 @@ class Resposta
     public function redirect($header)
     {
         $this->setHeader($header);
-        $this->redireccio = true;
+        $this->redirect = true;
     }
 
     /**
@@ -111,7 +111,7 @@ class Resposta
      */
     public function setTemplate($p)
     {
-        $this->plantilla = $p;
+        $this->template = $p;
     }
 
     /**
@@ -129,18 +129,18 @@ class Resposta
      *
      * @return void
      */
-    public function resposta()
+    public function response()
     {
-        if ($this->redireccio) {
+        if ($this->redirect) {
             header($this->header);
         } elseif ($this->json) {
-            echo json_encode($this->valors);
+            echo json_encode($this->values);
         } else {
             if ($this->header !== false) {
                 header($this->header);
             }
-            extract($this->valors);
-            include $this->path . $this->plantilla;
+            extract($this->values);
+            include $this->path . $this->template;
         }
     }
 }

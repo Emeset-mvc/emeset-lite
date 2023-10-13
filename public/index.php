@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Aquest fitxer és un exemple de Front Controller, pel qual passen totes les peticions.
+ * Aquest fitxer és un exemple de Front Controller, pel qual passen totes les requests.
  */
 
  include "../src/config.php";
@@ -12,13 +12,13 @@
   * Carreguem les classes del Framework Emeset
 */
   
- include "../src/Emeset/Contenidor.php";
- include "../src/Emeset/Peticio.php";
- include "../src/Emeset/Resposta.php";
+ include "../src/Emeset/Container.php";
+ include "../src/Emeset/Request.php";
+ include "../src/Emeset/Response.php";
 
- $request = new \Emeset\Peticio();
- $resposta = new \Emeset\Resposta();
- $contenidor = new \Emeset\Contenidor($config);
+ $request = new \Emeset\Request();
+ $response = new \Emeset\Response();
+ $container = new \Emeset\Container($config);
 
  /* 
   * Aquesta és la part que fa que funcioni el Front Controller.
@@ -33,12 +33,12 @@
  
  /* Front Controller, aquí es decideix quina acció s'executa */
  if($r == "") {
-     $resposta = ctrlIndex($request, $resposta, $contenidor);
+     $response = ctrlIndex($request, $response, $container);
  } elseif($r == "json") {
-  $resposta = ctrlJson($request, $resposta, $contenidor);
+  $response = ctrlJson($request, $response, $container);
 } else {
      echo "No existeix la ruta";
  }
 
  /* Enviem la resposta al client. */
- $resposta->resposta();
+ $response->response();

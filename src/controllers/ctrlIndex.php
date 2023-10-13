@@ -1,9 +1,13 @@
 <?php
 
-function ctrlIndex($peticio, $resposta, $contenidor){
+function ctrlIndex($request, $response, $container){
 
-    $resposta->setTemplate("index.php");
+    $name = $request->get(INPUT_GET, "name");
 
-    return $resposta;
+    $response->set("name", $name);
+
+    $response->setTemplate("index.php");
+
+    return $response;
     
 }

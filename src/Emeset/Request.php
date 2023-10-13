@@ -11,13 +11,13 @@
 namespace Emeset;
 
 /**
- * Peticio: Classe gestiona la petició HTTP.
+ * Request: Classe gestiona la petició HTTP.
  *
  * @author: Dani Prados dprados@cendrassos.net
  *
  * Encapsula la petició HTTP per permetre llegir-la com una entrada.
  **/
-class Peticio
+class Request
 {
 
     /**
@@ -71,11 +71,10 @@ class Peticio
      *
      * @param $input   string identificador de l'entrada.
      * @param $id      string amb la tasca.
-     * @param $filtre  int filtre a aplicar
-     * @param $opcions int opcions del filtre si volem un array FILTER_REQUIRE_ARRAY
+     * @param $options int opcions del filtre si volem un array FILTER_REQUIRE_ARRAY
      **/
-    public function getRaw($input, $id, $opcions = 0)
+    public function getRaw($input, $id, $options = 0)
     {
-        return $this->get($input, $id, FILTER_DEFAULT, $opcions);
+        return $this->get($input, $id, FILTER_DEFAULT, $options);
     }
 }
