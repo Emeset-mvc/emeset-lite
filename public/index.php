@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Aquest fitxer és un exemple de Front Controller, pel qual passen totes les requestns.
+ * Aquest fitxer és un exemple de Front Controller, pel qual passen totes les requests.
  */
 
  include "../src/config.php";
