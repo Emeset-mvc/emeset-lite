@@ -172,21 +172,40 @@ $response->setJson();
 
 ## El contenidor
 
-El contenidor és el responsable d'instanciar els diferents objectes del projecte. Centralitzar la responsabilitat de creació de nous objectes ens desacobla els controladors dels objectes que utilitzen, treu la lògica d'inicialització dels controladors i ens simplifica el canvi d'implementació d'alguns objectes, sempre que respecti la signatura (mètodes i paràmetres, podem assegurar aquesta compatibilitat utilitzant interfaces).
+El contenidor és el responsable d'instanciar els diferents objectes del projecte. Centralitzar la responsabilitat de creació de nous objectes ens desacobla els controladors dels objectes que utilitzen, treu la lògica d'inicialització dels controladors i ens simplifica el canvi d'implementació d'alguns objectes, sempre que respecti la signatura (mètodes i paràmetres), podem assegurar aquesta compatibilitat utilitzant interfaces.
 
 El constructor de la classe contenidor espera l'array de configuració com a paràmetre.
 ```php
 $container = new \Emeset\Container($config);
 ```
 
-Podem definir un mètode per cada classe que volguem utilitzar i així aquest mètode serà el responsable de la seva instancició.
+Per ampliar el contenidor podem extendre la classe i en el nou contenidor definir un mètode per cada classe que volguem utilitzar i així aquest mètode serà el responsable de la seva instancició.
 
 ```php
-    public function resposta()
+class Mycontainer extends Emeset\Container {
+
+    public $db = null;
+
+    public function __construct($config){
+        parent::__construct($config);
+        // Aqui va la logica de connexió a la base de dades
+        $this->db = $db; 
+    }
+    
+    public function response()
     {
         return new \Emeset\Response();
     }
+
+    public function user()
+    {
+        return new user($this->db);
+    }
+
+}
+   
 ```
+Un cop hem definit la nova versió de contenidor ja la podem utilitzar en la nostra aplicació.
 
 ## Les vistes
 
