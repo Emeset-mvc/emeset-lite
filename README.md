@@ -73,8 +73,8 @@ $r = $request->get(INPUT_GET, "r");
 // obtindrà el paràmetre r de la petició POST i escaparà els caràcters especials.
 $r = $request->get(INPUT_POST, "r"); 
 
-// obtindrà el paràmetre r de la petició GET.
-$r = $request->getRaw(INPUT_COOKIES, "r");  
+// obtindrà el paràmetre r de les cookies.
+$r = $request->get(INPUT_COOKIES, "r");  
 
 // obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
 $r = $request->get("SESSION", "r"); 
@@ -87,7 +87,25 @@ $r = $request->get("INPUT_REQUEST", "r");
 
 
 //Si no volem escapar els caràcters especials podem utilitzar el mètode getRaw();
-$r = $request->getRaw(INPUT_GET, "r");  // obtindrà el paràmetre r de la petició GET.
+$request->getRaw(INPUT_GET, "r");  // obtindrà el paràmetre r de la petició GET.
+
+// retornarà true si el paràmetre r està definit a la petició GET.
+$request->has(INPUT_GET, "r");  
+
+// retornarà true si el paràmetre r està definit a la petició POST.
+$request->has(INPUT_POST, "r"); 
+
+// retornarà true si el paràmetre r està definit a les COOKIES.
+$request->hasRaw(INPUT_COOKIES, "r");  
+
+// retornarà true si el paràmetre r està definit a la sessió.
+$request->has("SESSION", "r"); 
+
+// retornarà true si el paràmetre r està definit a la petició FILES.
+$request->has("FILES", "r"); 
+
+// retornarà true si el paràmetre r està definit al request.
+$request->has("INPUT_REQUEST", "r");
 ```
 
 ## La resposta
