@@ -59,6 +59,17 @@ class Response
     {
            $_SESSION[$id] = $value;
     }
+
+    /**
+     * Esborra el valor indicat de la sessió
+     *
+     * @param $id
+     * @return void
+     */
+    public function unsetSession($id)
+    {
+        unset($_SESSION[$id]);
+    }
     
     /**
      * setCookie funció afegida per consistència crea una cookie.

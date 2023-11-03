@@ -165,6 +165,11 @@ La resposta ens permet desar informació a la sessió. El PHP ens permet fer-ho 
 $response->setSession("error", "Missatge d'error");  
 ```
 
+```php
+// Esborra "error" de la sessió.
+$response->unsetSession("error");  
+```
+
 ### Cookies
 
 El métode setCookie()  mapeja la petició a la funcio [setcookie](https://www.php.net/manual/es/function.setcookie.php) de PHP amb els mateixos paràmetres.
