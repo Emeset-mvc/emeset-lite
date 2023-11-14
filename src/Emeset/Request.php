@@ -46,7 +46,7 @@ class Request
             }
         } elseif ($input === 'FILES') {
             $result = null;
-            if (isset($_SESSION[$id])) {
+            if (isset($_FILES[$id])) {
                 $result = $_FILES[$id];
             }            
         } elseif ($input === "INPUT_REQUEST") {
