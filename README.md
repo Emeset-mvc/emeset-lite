@@ -106,6 +106,21 @@ $request->has("FILES", "r");
 
 // retornarà true si el paràmetre r està definit al request.
 $request->has("INPUT_REQUEST", "r");
+
+// retornarà true si la petició prové de una crida AJAX.
+$request->isAjax();
+```
+
+### isAjax()
+
+Quan es fa una crida AJAX al servidor s'afegeix a la capçalera una forma de detectar si la petició és AJAX , el que fa la funció es comprovar si a la petició existeix la clau d'AJAX  i si té el valor que indica si és AJAX o no.
+
+```php
+public function isAjax()
+    {
+        //Comprovem si la petició és AJAX mirant la capçalera HTTP_X_REQUESTED_WITH i si el seu valor és xmlhttprequest
+        return !empty($this->has(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) && strtolower($this->get(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest';
+    }
 ```
 
 ## La resposta
