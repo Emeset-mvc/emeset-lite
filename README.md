@@ -116,11 +116,19 @@ $request->isAjax();
 Quan es fa una crida AJAX al servidor s'afegeix a la capçalera una forma de detectar si la petició és AJAX , el que fa la funció es comprovar si a la petició existeix la clau d'AJAX  i si té el valor que indica si és AJAX o no.
 
 ```php
-public function isAjax()
-    {
-        //Comprovem si la petició és AJAX mirant la capçalera HTTP_X_REQUESTED_WITH i si el seu valor és xmlhttprequest
-        return !empty($this->has(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) && strtolower($this->get(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest';
-    }
+// Al començament d'un controlador podem comprovar si ha sigut cridat per una petició ajax i retornar en format JSON en comptes de una vista
+if ($request->isAjax()) {
+    $resposta = [
+        "resposta1" => 3,
+        "resposta2" => 2,
+        "resposta3" => 1
+    ];
+    $response->set("resposta", $resposta);
+    $response->setJson();
+    return $response;
+}
+
+// ALTRE CODI DEL CONTROLADOR
 ```
 
 ## La resposta
