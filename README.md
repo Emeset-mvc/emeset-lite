@@ -106,6 +106,29 @@ $request->has("FILES", "r");
 
 // retornarà true si el paràmetre r està definit al request.
 $request->has("INPUT_REQUEST", "r");
+
+// retornarà true si la petició prové de una crida AJAX.
+$request->isAjax();
+```
+
+### isAjax()
+
+Quan es fa una crida AJAX al servidor s'afegeix a la capçalera una forma de detectar si la petició és AJAX , el que fa la funció es comprovar si a la petició existeix la clau d'AJAX  i si té el valor que indica si és AJAX o no.
+
+```php
+// Al començament d'un controlador podem comprovar si ha sigut cridat per una petició ajax i retornar en format JSON en comptes de una vista
+if ($request->isAjax()) {
+    $resposta = [
+        "resposta1" => 3,
+        "resposta2" => 2,
+        "resposta3" => 1
+    ];
+    $response->set("resposta", $resposta);
+    $response->setJson();
+    return $response;
+}
+
+// ALTRE CODI DEL CONTROLADOR
 ```
 
 ## La resposta
