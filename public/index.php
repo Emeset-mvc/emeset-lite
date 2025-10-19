@@ -41,4 +41,4 @@
  }
 
  /* Enviem la resposta al client. */
- $response->response();
+ $response->execute();

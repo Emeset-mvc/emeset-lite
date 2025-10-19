@@ -28,7 +28,7 @@ class Request
         session_start();
     }
 
-     /**
+    /**
      * get:  obté un valor de l'entrada especificada amb el filtre indicat
      *
      * @param $input   string identificador de l'entrada.
@@ -48,23 +48,26 @@ class Request
             $result = null;
             if (isset($_FILES[$id])) {
                 $result = $_FILES[$id];
-            }            
+            }
         } elseif ($input === "INPUT_REQUEST") {
             $result = null;
             if (isset($_REQUEST[$id])) {
                 $var = $_REQUEST[$id];
-                if($filter == "FILTER_SANITIZE_STRING"){
-                $result = filter_var($var, $filter, $options);
+                if ($filter == "FILTER_SANITIZE_STRING") {
+                    $result = filter_var($var, FILTER_DEFAULT, $options);
+                    if (isset($result)) {
+                        $result = htmlspecialchars($result, ENT_QUOTES, 'UTF-8');
+                    }
                 } else {
                     $result = filter_var($var, $filter, $options);
                 }
             }
         } else {
-            if($filter == "FILTER_SANITIZE_STRING"){
+            if ($filter == "FILTER_SANITIZE_STRING") {
                 $result = filter_input($input, $id, FILTER_DEFAULT, $options);
-                if(isset($result)) {
-                    $result = htmlspecialchars($result);
-                }                
+                if (isset($result)) {
+                    $result = htmlspecialchars($result, ENT_QUOTES, 'UTF-8');
+                }
             } else {
                 $result = filter_input($input, $id, $filter, $options);
             }
@@ -84,7 +87,7 @@ class Request
         return $this->get($input, $id, FILTER_DEFAULT, $options);
     }
 
-     /**
+    /**
      * get:  retorna true si l'entrada especificada existeix i false si no.
      *
      * @param $input   string identificador de l'entrada.

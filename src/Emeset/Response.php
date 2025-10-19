@@ -22,6 +22,7 @@ class Response
 
     public $values = [];
     public $header = false;
+    public $headers = [];
     public $path;
     public $template;
     public $redirect = false;
@@ -57,7 +58,7 @@ class Response
      */
     public function setSession($id, $value)
     {
-           $_SESSION[$id] = $value;
+        $_SESSION[$id] = $value;
     }
 
     /**
@@ -70,7 +71,7 @@ class Response
     {
         unset($_SESSION[$id]);
     }
-    
+
     /**
      * setCookie funció afegida per consistència crea una cookie.
      *
@@ -93,12 +94,17 @@ class Response
     /**
      * setHeader Afegeix una capçalera http a la resposta
      *
-     * @param  string $header capçalera http
+     * @param  string|array $header capçalera http
      * @return void
      */
     public function setHeader($header)
     {
-        $this->header = $header;
+        // Si ens passen un array, el fusionem
+        if (is_array($header)) {
+            $this->headers = array_merge($this->headers, $header);
+        } else {
+            $this->headers[] = $header;
+        }
     }
 
     /**
@@ -130,8 +136,9 @@ class Response
      *
      * @return void
      */
-    public function setJSON()
+    public function setJson()
     {
+        $this->setHeader('Content-Type: application/json; charset=UTF-8');
         $this->json = true;
     }
 
@@ -140,18 +147,42 @@ class Response
      *
      * @return void
      */
-    public function response()
+    public function execute()
     {
+        $this->sendHeaders();
         if ($this->redirect) {
-            header($this->header);
+            // nothing to do
         } elseif ($this->json) {
             echo json_encode($this->values);
         } else {
-            if ($this->header !== false) {
-                header($this->header);
-            }
             extract($this->values);
             include $this->path . $this->template;
         }
+    }
+
+    /**
+     * Envia els headers
+     *
+     * @return void
+     */
+    private function sendHeaders()
+    {
+        if (!empty($this->headers)) {
+            foreach ($this->headers as $h) {
+                header($h);
+            }
+        }
+    }
+
+
+    /**
+     * Genera la resposta HTTP
+     * @deprecated
+     *
+     * @return void
+     */
+    public function response()
+    {
+        return $this->execute();
     }
 }

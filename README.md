@@ -57,7 +57,7 @@ I al final del fitxer "executem" la resposta,  la resposta pot ser una plantilla
 
 
 ```php
- $response->response();
+ $response->execute();
 
 ```
 
@@ -74,7 +74,7 @@ $r = $request->get(INPUT_GET, "r");
 $r = $request->get(INPUT_POST, "r"); 
 
 // obtindrà el paràmetre r de les cookies.
-$r = $request->get(INPUT_COOKIES, "r");  
+$r = $request->get(INPUT_COOKIE, "r");  
 
 // obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
 $r = $request->get("SESSION", "r"); 
@@ -96,7 +96,7 @@ $request->has(INPUT_GET, "r");
 $request->has(INPUT_POST, "r"); 
 
 // retornarà true si el paràmetre r està definit a les COOKIES.
-$request->hasRaw(INPUT_COOKIES, "r");  
+$request->has(INPUT_COOKIE, "r");  
 
 // retornarà true si el paràmetre r està definit a la sessió.
 $request->has("SESSION", "r"); 
@@ -138,7 +138,7 @@ La resposta encapsula la resposta HTTP,  això inclou les cookies, redireccions,
 ```php
 // Quan instanciem la classe resposta podem definir en quina carpeta 
 // estan les plantilles, per defecte busca a ../src/views/
-$response = new \Emeset\Response("../src/vistes");
+$response = new \Emeset\Response("../src/views");
 ```
 
 El mètode set ens permet injectar informació a la vista i el mètode setTemplate ens permet definir quina plantilla volem utilitzar per la vista.
@@ -175,7 +175,7 @@ $response->setHeader("HTTP/1.1 404 Not Found");
 La resposta en alguns casos pot ser una redirecció. Així podem indicar al navegador que carregui una altra pàgina.
 
 ```php
-$response->redirect("location: index.php?r=login");
+$response->redirect("Location: index.php?r=login");
 ```
 
 ### Sessió
