@@ -26,10 +26,7 @@
   * Si hi ha paràmetre, carreguem la pàgina que correspongui.
   * Si no existeix la pàgina, carreguem la pàgina d'error.
   */
- $r = '';
- if(isset($_REQUEST["r"])){
-    $r = $_REQUEST["r"];
- }
+ $r = $request->get("INPUT_REQUEST", "r") ?? '';
  
  /* Front Controller, aquí es decideix quina acció s'executa */
  if($r == "") {

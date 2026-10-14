@@ -1,6 +1,6 @@
 <?php
 
-function ctrlIndex($request, $response, $container){
+function ctrlIndex(\Emeset\Request $request, \Emeset\Response $response, \Emeset\Container $container): \Emeset\Response{
 
     $name = $request->get(INPUT_GET, "name");
 

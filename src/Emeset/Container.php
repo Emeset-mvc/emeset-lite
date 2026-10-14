@@ -19,24 +19,24 @@ namespace Emeset;
  **/
 class Container
 {
-    public $config = [];
+    public array $config = [];
 
     /**
      * __construct:  Crear contenidor
      *
      * @param $config array paràmetres de configuració de l'aplicació.
      **/
-    public function __construct($config)
+    public function __construct(array $config)
     {
         $this->config = $config;
     }
 
-    public function response()
+    public function response(): \Emeset\Response
     {
         return new \Emeset\Response();
     }
 
-    public function request()
+    public function request(): \Emeset\Request
     {
         return new \Emeset\Request();
     }

@@ -23,7 +23,7 @@ Així els controladors reben tota la informació de la petició HTTP encapsulada
 Els controladors no han d'accedir directament a la informació, d'això s'encarreguen els models, ni han de generar cap sortida, d'això s'encarrega la resposta. La seva responsabilitat és crear una resposta en funció de la informació d'entrada utilitzant els models per accedir a les dades de l'aplicació.
 
 ```php
-function ctrlIndex($request, $response, $container){
+function ctrlIndex(\Emeset\Request $request, \Emeset\Response $response, \Emeset\Container $container): \Emeset\Response{
 
     $response->setTemplate("index.php");
 
@@ -199,7 +199,7 @@ El métode setCookie()  mapeja la petició a la funcio [setcookie](https://www.p
 
 
 ```php
-public function setCookie($name, $value = "", $expire = 0, $path = "", $domain = "", $secure = false, $httponly = false)
+public function setCookie(string $name, string $value = "", int $expire = 0, string $path = "", string $domain = "", bool $secure = false, bool $httponly = false): void
 ```
 
 Per exemple:
@@ -232,13 +232,13 @@ class Mycontainer extends Emeset\Container {
 
     public $db = null;
 
-    public function __construct($config){
+    public function __construct(array $config){
         parent::__construct($config);
         // Aqui va la logica de connexió a la base de dades
         $this->db = $db; 
     }
     
-    public function response()
+    public function response(): \Emeset\Response
     {
         return new \Emeset\Response();
     }
@@ -282,7 +282,8 @@ Dos exemples habituals de middleware és el control d'accés, on el middleware c
 
 ```php
 
-function auth($request, $response, $container, $next){
+/** @param callable(\Emeset\Request, \Emeset\Response, \Emeset\Container): \Emeset\Response $next */
+function auth(\Emeset\Request $request, \Emeset\Response $response, \Emeset\Container $container, callable $next): \Emeset\Response{
     /* Aqui aniria el codi per validar si l'usuari està identificat correctament. */
 
     if($loginOK) {

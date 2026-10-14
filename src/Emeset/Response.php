@@ -20,19 +20,19 @@ namespace Emeset;
 class Response
 {
 
-    public $values = [];
-    public $headers = [];
-    public $path;
-    public $template;
-    public $redirect = false;
-    public $json = false;
+    public array $values = [];
+    public array $headers = [];
+    public string $path;
+    public ?string $template = null;
+    public bool $redirect = false;
+    public bool $json = false;
 
     /**
      * __construct:  Té tota la informació per crear la resposta
      *
      * @param $path string path fins a la carpeta de plantilles.
      **/
-    public function __construct($path = "../src/views/")
+    public function __construct(string $path = "../src/views/")
     {
         $this->path = $path;
     }
@@ -43,7 +43,7 @@ class Response
      * @param $id    string identificadro del valor que deem.
      * @param $value mixed valor a desar
      **/
-    public function set($id, $value)
+    public function set(string $id, mixed $value): void
     {
         $this->values[$id] = $value;
     }
@@ -55,7 +55,7 @@ class Response
      * @param  mixed  $valor variable que volem desar
      * @return void
      */
-    public function setSession($id, $value)
+    public function setSession(string $id, mixed $value): void
     {
         $_SESSION[$id] = $value;
     }
@@ -66,7 +66,7 @@ class Response
      * @param $id
      * @return void
      */
-    public function unsetSession($id)
+    public function unsetSession(string $id): void
     {
         unset($_SESSION[$id]);
     }
@@ -85,7 +85,7 @@ class Response
      * @param  boolean $httponly
      * @return void
      */
-    public function setCookie($name, $value = "", $expire = 0, $path = "", $domain = "", $secure = false, $httponly = false)
+    public function setCookie(string $name, string $value = "", int $expire = 0, string $path = "", string $domain = "", bool $secure = false, bool $httponly = false): void
     {
         setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
     }
@@ -96,7 +96,7 @@ class Response
      * @param  string|array $header capçalera http
      * @return void
      */
-    public function setHeader($header)
+    public function setHeader(string|array $header): void
     {
         // Si ens passen un array, el fusionem
         if (is_array($header)) {
@@ -113,7 +113,7 @@ class Response
      *                        redirecció
      * @return void
      */
-    public function redirect($header)
+    public function redirect(string|array $header): void
     {
         $this->setHeader($header);
         $this->redirect = true;
@@ -125,7 +125,7 @@ class Response
      * @param  string $p nom de la plantilla
      * @return void
      */
-    public function setTemplate($p)
+    public function setTemplate(string $p): void
     {
         $this->template = $p;
     }
@@ -135,7 +135,7 @@ class Response
      *
      * @return void
      */
-    public function setJson()
+    public function setJson(): void
     {
         $this->setHeader('Content-Type: application/json; charset=UTF-8');
         $this->json = true;
@@ -146,7 +146,7 @@ class Response
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
         $this->sendHeaders();
         if ($this->redirect) {
@@ -164,7 +164,7 @@ class Response
      *
      * @return void
      */
-    private function sendHeaders()
+    private function sendHeaders(): void
     {
         if (!empty($this->headers)) {
             foreach ($this->headers as $h) {
@@ -180,8 +180,8 @@ class Response
      *
      * @return void
      */
-    public function response()
+    public function response(): void
     {
-        return $this->execute();
+        $this->execute();
     }
 }

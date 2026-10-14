@@ -33,10 +33,10 @@ class Request
      *
      * @param $input   string identificador de l'entrada.
      * @param $id      string amb la tasca.
-     * @param $filtre  int filtre a aplicar
+     * @param $filter  int filtre a aplicar
      * @param $options int opcions del filtre si volem un array FILTER_REQUIRE_ARRAY
      **/
-    public function get($input, $id, $filter = "FILTER_SANITIZE_STRING", $options = 0)
+    public function get(int|string $input, string $id, int|string $filter = "FILTER_SANITIZE_STRING", int|array $options = 0): mixed
     {
         $result = false;
         if ($input === 'SESSION') {
@@ -82,9 +82,9 @@ class Request
      * @param $id      string amb la tasca.
      * @param $options int opcions del filtre si volem un array FILTER_REQUIRE_ARRAY
      **/
-    public function getRaw($input, $id, $options = 0)
+    public function getRaw(int|string $input, string $id, int|array $options = 0): mixed
     {
-        return $this->get($input, $id, FILTER_DEFAULT, $options);
+        return $this->get($input, $id, FILTER_UNSAFE_RAW, $options);
     }
 
     /**
@@ -94,7 +94,7 @@ class Request
      * @param $id      string amb la tasca.
      * return boolean
      **/
-    public function has($input, $id)
+    public function has(int|string $input, string $id): bool
     {
         $result = false;
         if ($input === 'SESSION') {
@@ -104,7 +104,7 @@ class Request
         } elseif ($input === "INPUT_REQUEST") {
             $result = isset($_REQUEST[$id]);
         } else {
-            $result = !is_null(filter_input($input, $id, FILTER_DEFAULT));
+            $result = !is_null(filter_input($input, $id, FILTER_UNSAFE_RAW));
         }
         return $result;
     }
@@ -116,7 +116,7 @@ class Request
      * 
      * Mateo Cerna
      **/
-    public function isAjax()
+    public function isAjax(): bool
     {
         //Comprovem si la petició és AJAX mirant la capçalera HTTP_X_REQUESTED_WITH i si el seu valor és xmlhttprequest
         return !empty($this->has(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) && strtolower($this->get(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest';
