@@ -20,7 +20,6 @@ namespace Emeset;
 class Container
 {
     public $config = [];
-    public $sql;
 
     /**
      * __construct:  Crear contenidor

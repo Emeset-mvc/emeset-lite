@@ -21,7 +21,6 @@ class Response
 {
 
     public $values = [];
-    public $header = false;
     public $headers = [];
     public $path;
     public $template;

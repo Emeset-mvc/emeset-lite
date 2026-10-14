@@ -79,10 +79,10 @@ $r = $request->get(INPUT_COOKIE, "r");
 // obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
 $r = $request->get("SESSION", "r"); 
 
-// obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
+// obtindrà el paràmetre r del files i escaparà els caràcters especials.
 $r = $request->get("FILES", "r"); 
 
-// obtindrà el paràmetre r de la sessió i escaparà els caràcters especials.
+// obtindrà el paràmetre r del request i escaparà els caràcters especials.
 $r = $request->get("INPUT_REQUEST", "r"); 
 
 
@@ -212,7 +212,7 @@ $response->setCookie("contador", $contador);
 Si volem generar una resposta en format JSON podem utilitzar el mètode setJson() així  la resposta codificarà a format JSON tota la informació que hem afegit.
 
 ```php
-// Quedarà desat a la sessió i podrem consultar en les pròximes consultes.
+// La resposta serà en format JSON.
 $response->setJson();  
 ```
 
